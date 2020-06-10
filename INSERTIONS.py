@@ -14,17 +14,17 @@ import pysam
 import matplotlib
 matplotlib.use('Agg') #this tells matplotlib we may not necessarily have access to a screen
 from matplotlib import pyplot as plt #this is what we're going to use to plot
-#first define a function that we're going to call this function twice: once for plasmodium and once for cerevisiae
+#first define a function 
 def getIndelFreq(fPath):
-    #create two empty lists - we're going to fill these up as we go
+    #create  empty lists 
     plasIns = []
         
     f = pysam.Samfile('/Users/Clara/Dropbox/barcode2little.bam','rb') #open the bam file
     for record in f:
         
-        #write something that uses the cigar string to calculate the number of insertions in this read
+        #uses the cigar string to calculate the number of insertions in this read
         numOfInsertions = sum(tup[1] for tup in record.cigartuples if tup[0] == 1)
-        #write something that calculates the length of the reference subsequence that this read mapped to
+        #calculates the length of the reference subsequence that this read mapped to
         lenOnRef = record.reference_length 
         #add to the insertions frequency list
         plasIns.append(float(numOfInsertions) / lenOnRef) 
@@ -32,22 +32,22 @@ def getIndelFreq(fPath):
         #print(plasIns)
     f.close()
     return plasIns
-    
+
 
 #MAIN--------------------------
-#call the function twice - does it have to be a Bam file? (/path/to/plasmodium.bam??) Plasmodium_falciparum.ASM276v2.dna.toplevel.fa
+#call the function 
 plasIns = getIndelFreq('/Users/Clara/Dropbox/barcode2little.bam')
 
-#first define a function that we're going to call this function twice: once for plasmodium and once for cerevisiae
+#again define a function 
 def getIndellFreqq(fPath):
-    #create two empty lists - we're going to fill these up as we go
+    #create an empty lists 
     cerevisiaeIns = []   
     f = pysam.Samfile('/Users/Clara/Dropbox/cerevisiaelittle.bam','rb') #open the bam file
     for record in f:
         
-        #write something that uses the cigar string to calculate the number of insertions in this read
+        #uses the cigar string to calculate the number of insertions in this read
         numOfInsertions =  sum(tup[1] for tup in record.cigartuples if tup[0] == 1)
-        #write something that calculates the length of the reference subsequence that this read mapped to
+        #calculates the length of the reference subsequence that this read mapped to
         lenOnRef = record.reference_length 
         #add to the insertions frequency list
         cerevisiaeIns.append(float(numOfInsertions) / lenOnRef) 
@@ -65,11 +65,11 @@ plt.hist(cerevisiaeIns, 50, alpha = 0.3, label = 'Cerevisiae Ins')
 #explaination of these plotting commands:
 # - we're going to make a histogram out of the list in the first argument
 # - the second argument specifies how many bins we want (50 in this case)
-# - the third argument specifies the transparency - this is useful when you have a few plots on the same axis
+# - the third argument specifies the transparency 
 # - the fourth argument specifies the label for the plot legend
 #so plot housekeeping - make the legend and label the axes
 plt.legend(framealpha=0.3) #make it slightly transparent so it doesn't block out any of the bars
 plt.xlabel('InDels Per Reference Base')
 plt.ylabel('Count')
-plt.savefig('insertionsrplotOut.png') #saves the plot to a file - I like to use pdf's so that I can edit colours with Illustrator/InkScape later if I want, but you can change the file format just by changing the extension.  So 'plotOut.png' will give you a png
+plt.savefig('insertionsrplotOut.png') #saves the plot to a file 
 plt.close()
