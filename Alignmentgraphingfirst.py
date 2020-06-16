@@ -3,7 +3,7 @@ Created on 15 Jun 2020
 
 @author: Clara
 '''
-f = open('/home/hpcoca1/rds/hpc-work/resultsalign_2020_06_08/outputone.align', 'r')
+f = open('route/to/alignment/file', 'r')
 
 import matplotlib
 matplotlib.use('Agg') # may not necessarily have access to a screen
@@ -33,7 +33,6 @@ for line in f:
             prevPos = -1
             prev = []
             
-            
         else:
             splitline = line.rstrip().split('\t')
             posOnRef = int(splitline[0])
@@ -50,27 +49,22 @@ for line in f:
             #search for insertions
             if sixMerOnStrand == 'NNNNNN': 
                 insCount += 1
-                
-                
-                
+             
+            #search for deletions
             if prevPos != -1:
                 gap = abs(pos - prevPos)
-    
                 if gap > 1:
                     x = gap - 1
                     delCount += x
                     delFreq.append(float(delCount) / numBase)
             
-            
             if numBase != -1:
-                
                 insertionFreq.append(float(insCount) / numBase)
-                
-                
+             #reset counters   
             insCount = 0
             delCount = 0 
             delFreq.append(float(delCount) / numBase)
-            
+            #reset position
             prevPos = pos
             
 f.close()
@@ -78,7 +72,6 @@ f.close()
 #do the plotting
 plt.figure() #make a figure to write on
 #write some plots onto the figure
-
 plt.hist(insertionFreq, 50, alpha = 0.3, label = 'Falciparum Ins')
 plt.hist(delFreq, 50, alpha = 0.3, label = 'Falciparum Del')
 #explaination of these plotting commands:
@@ -90,6 +83,5 @@ plt.hist(delFreq, 50, alpha = 0.3, label = 'Falciparum Del')
 plt.legend(framealpha=0.3) #make it slightly transparent so it doesn't block out any of the bars
 plt.xlabel('InDels per Reference Base')
 plt.ylabel('Count')
-
 plt.savefig('ins_3.pdf') #saves the plot to a file 
 plt.close() 
