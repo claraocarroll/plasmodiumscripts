@@ -3,26 +3,26 @@ Created on 15 Jun 2020
 
 @author: Clara
 '''
-f = open('/home/hpcoca1/rds/hpc-work/resultsalign_2020_06_08/output7.align', 'r')
-#f = open('/rds/project/mb915/rds-mb915-data_transfer/test.align', 'r') 
+f = open('route/to/alignment/file', 'r') 
 #import the graphing software
-
 import matplotlib
 matplotlib.use('Agg') # may not necessarily have access to a screen
 from matplotlib import pyplot as plt # to plot
-#read in header (first line)
+
 #create empty lists
 insertionFreq = []
 delFreq = []
 insCount = 0
 delCount = 0
 numBase = -1
+
+#initiate for loop to run through alignment file
 for line in f:
   if line[0] == '#':
     continue
+  #read in header (first line)
   if line.startswith('>'):
     #wrap up from the read before, if there is one
-    
     prevPos = -1
     splitline = line.rstrip().split(' ')
     readID = splitline[0][1:]
@@ -36,7 +36,6 @@ for line in f:
     numBase = refEnd - refStart 
     
     #reset counters for the next read
-    
     delCount = 0
     insCount = 0
     
@@ -51,23 +50,28 @@ for line in f:
     levelStDev = float(splitline[5])
     pos = int(splitline[0])
     
+    #search for deletions
     if prevPos != -1:
       gap = abs(pos - prevPos)
       if gap > 1:
         delCount += gap - 1
     
+    #reset positions
     prevPos = pos
     
     #search for insertions
     if sixMerOnStrand == 'NNNNNN':
       insCount += 1
-      
+
+#close file
 f.close()
+#print frequencies
 print(insertionFreq[0:10], 'insertion')
 print(delFreq[0:10], 'deletion')
-   
+#print insertion lengths
 print(len(insertionFreq), 'insertion length')
 print(len(delFreq), 'deletion length')
+
 #do the plotting
 plt.figure() #make a figure to write on
 #write some plots onto the figure
@@ -81,6 +85,7 @@ plt.hist(delFreq, 50, alpha = 0.3, label = 'Falciparum Del')
 # plot housekeeping - make  legend and label the axes
 plt.legend(framealpha=0.3) #make it slightly transparent so it doesn't block out any of the bars
 plt.xlabel('InDels per Reference Base')
+#make the x limit smaller to view the given data better
 plt.xlim(0,0.1)
 plt.ylabel('Count')
 plt.savefig('outboemo9_15.pdf') #saves the plot to a file 
