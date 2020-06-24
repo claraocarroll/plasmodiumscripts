@@ -3,8 +3,7 @@ Created on 24 Jun 2020
 
 @author: Clara
 '''
-f = open('/Users/Clara/Dropbox/hpcoca1/output1_1000.detect', 'r')
-#f = open('/rds/project/mb915/rds-mb915-data_transfer/test.align', 'r') 
+f = open('path/to/file', 'r')
 #import the graphing software
 import numpy as np
 import matplotlib
