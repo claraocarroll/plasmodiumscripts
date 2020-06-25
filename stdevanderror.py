@@ -4,8 +4,7 @@ Created on 25 Jun 2020
 @author: Clara
 '''
 
-f = open('/Users/Clara/Dropbox/hpcoca1/output1_1000.detect', 'r')
-#f = open('/rds/project/mb915/rds-mb915-data_transfer/test.align', 'r') 
+f = open('/path/to/file', 'r')
 #import the graphing software
 import numpy as np
 
@@ -144,17 +143,11 @@ Mean_Trevy=np.mean(Trevy)
 Mean_Tfreq=np.mean(tFreq)
 STDV_Tfreq=np.std(tFreq)
 STDV_Tfreqone=np.mean(tFreq)
+f.close() 
 
 #counter that keeps track of how many three-thymidine sixmers we have
 # and then add probBrdU to a running total of probabilities that we have for three-thymidine sixmers.
 #Then at the end, take (running total of probBrdU for three-thymidine sixMers) / (total number of three-thymidine sixMers)
-
-#print(STDV_Tfreq)
-#print(Mean_Tfreq)
-#print(tFreq)
-#print(zero)
-#print(count)
-f.close() 
 
 z=[]
 #z.append(float(probtot0)/zero)
@@ -168,17 +161,14 @@ print(z)
 STDV_z=np.std(z)
 print(STDV_z)
 bars = [1,2,3,4,5,6]
-#import scipy.stats as ss
-#Stderror=stats.sem(z)
-#print(Stderror)
 
 error = [STDV_z]
 
 fig, ax = plt.subplots()
+# to change from a line plot with error bars to a bar plot with error bars remove the word 'error' from the below statement
 ax.errorbar(bars, z, yerr=STDV_z, alpha=0.5, ecolor='black' )
 ax.set_ylabel('Frequency')
 ax.set_xticks(bars)
-#ax.set_xticklabels(labels)
 ax.set_title('Thymidine Frequency Graph - Plasmodium')
 ax.yaxis.grid(True)
 
